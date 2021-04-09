@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated: %}
+        <div class="content-section">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Set Ranking Policy</legend>
+                    <div class="form-group">
+                        {{ form.experience.label(class="form-control-label") }}
+
+                        <select name="experience">
+                            <option value="0" selected>{{form.experiences[0]}}</option>
+                            <option value="1">{{form.experiences[1]}}</option>
+                            <option value="2">{{form.experiences[2]}}</option>
+                            <option value="2++">{{form.experiences[3]}}</option>
+                        </select>
+
+                    </div>
+                   <div class="form-group">
+                        {{ form.skill.label(class="form-control-label") }}
+
+                       <div class="form-check checkboxesflow">
+                          <input class="form-check-input" type="checkbox" value="C" id="C" name="skill"/>
+                          <label class="form-check-label" for="C">C</label><br>
+                          <input class="form-check-input" type="checkbox" value="C++" id="C++" name="skill"/>
+                          <label class="form-check-label" for="c++">C++</label><br>
+                          <input class="form-check-input" type="checkbox" value="C#" id="C#" name="skill"/>
+                          <label class="form-check-label" for="c#">C#</label><br>
+                          <input class="form-check-input" type="checkbox" value="Java" id="Java" name="skill"/>
+                          <label class="form-check-label" for="Java">Java</label><br>
+                          <input class="form-check-input" type="checkbox" value="python" id="python" name="skill"/>
+                          <label class="form-check-label" for="python">python</label><br>
+                          <input class="form-check-input" type="checkbox" value="PHP" id="PHP" name="skill"/>
+                          <label class="form-check-label" for="PHP">PHP</label><br>
+                          <input class="form-check-input" type="checkbox" value="Flask" id="Flask" name="skill"/>
+                          <label class="form-check-label" for="Flask">Flask</label><br>
+                          <input class="form-check-input" type="checkbox" value="Django" id="Django" name="skill"/>
+                          <label class="form-check-label" for="Django">Django</label><br>
+                          <input class="form-check-input" type="checkbox" value="Html" id="Html" name="skill"/>
+                          <label class="form-check-label" for="Html">Html</label><br>
+                          <input class="form-check-input" type="checkbox" value="CSS" id="CSS" name="skill"/>
+                          <label class="form-check-label" for="CSS">CSS</label><br>
+                          <input class="form-check-input" type="checkbox" value="Bootstrap" id="Bootstrap" name="skill"/>
+                          <label class="form-check-label" for="Bootstrap">Bootstrap</label><br>
+                          <input class="form-check-input" type="checkbox" value="Web Development" id="Web" name="skill"/>
+                          <label class="form-check-label" for="Web">Web Development</label><br>
+                          <input class="form-check-input" type="checkbox" value="MYSQL" id="MYSQL" name="skill"/>
+                          <label class="form-check-label" for="MYSQL">MySQL</label><br>
+                          <input class="form-check-input" type="checkbox" value="sqlite" id="sqlite" name="skill"/>
+                          <label class="form-check-label" for="sqlite">Sqlite</label><br>
+                          <input class="form-check-input" type="checkbox" value="SQLAlchemy" id="SQLAlchemy" name="skill"/>
+                          <label class="form-check-label" for="SQLAlchemy">SQLAlchemy</label><br>
+                          <input class="form-check-input" type="checkbox" value="MongoDB" id="MongoDB" name="skill"/>
+                          <label class="form-check-label" for="MongoDB">MongoDB</label><br>
+                          <input class="form-check-input" type="checkbox" value="PostgreSQL" id="PostgreSQL" name="skill"/>
+                          <label class="form-check-label" for="PostgreSQL">PostgreSQL</label><br>
+                       </div>
+
+                    </div>
+                    <div class="form-group">
+                        {{ form.degree.label(class="form-control-label") }}
+                         <select name="degree">
+                            <option value="{{form.degrees[0]}}" selected>{{form.degrees[0]}}</option>
+                            {% for degree in form.degrees[1:] %}
+                                <option value="{{degree}}">{{degree}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        {{ form.publication.label(class="form-control-label") }}
+                         <select name="publication">
+                            <option value="{{form.publications[0]}}" selected>{{form.publications[0]}}</option>
+                            {% for publication in form.publications[1:] %}
+                                <option value="{{publication}}">{{publication}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        {{ form.patent.label(class="form-control-label") }}
+                         <select name="patent">
+                            <option value="{{form.patents[0]}}" selected>{{form.patents[0]}}</option>
+                            {% for patent in form.patents[1:] %}
+                                <option value="{{patent}}">{{patent}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}

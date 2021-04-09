@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated: %}
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container" style="padding:10px">
+                <h1 class="display-4"> <strong> Upload Your Resume Files</strong> </h1>
+                <div class="content-section">
+                    <form action = "/home" method = "POST" enctype = "multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <br>
+                        <br>
+                        <div class="form-group">
+                            <input type="file" name="files[]" multiple="true" autocomplete="off" required><br>
+                            {% if form.inputFile.errors %}
+                                {% for error in form.inputFile.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <img style="border-radius: 8px;" src="/static/Background_images/search.jpg" alt="Cinque Terre" width="130%" height= auto>
+        <div class="topleft">
+            With hundreds if not thousands of resumes
+            flowing in from job seekers it’s no surprise
+            that resume management is a high priority
+            for human resources and hiring managers.
+            RecruiterAid has the tools to collect,
+            parse, search, and manage resumes from
+            your job seekers. Join today to take
+            advantage of the powerful, automated
+            applicant tracking system from recruiterAid.
+            <form action = "/register" enctype = "multipart/form-data">
+                {{ form.hidden_tag() }}
+                <button type="submit" class="btn btn-dark">Join now</button>
+                <small style="color:navy;">Click here to join now.</small>
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}

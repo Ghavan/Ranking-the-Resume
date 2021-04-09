@@ -1,0 +1,86 @@
+C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\venv\Scripts>activate
+(venv) C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\04-Database>py flaskblog.py
+C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\venv\lib\site-packages\flask_sqlalchemy\__init__.py:834: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+ * Serving Flask app "flaskblog" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Restarting with stat
+C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\venv\lib\site-packages\flask_sqlalchemy\__init__.py:834: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+ * Debugger is active!
+ * Debugger PIN: 858-083-421
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [08/Mar/2021 23:18:22] "[37mGET / HTTP/1.1[0m" 200 -
+
+(venv) C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\04-Database>py
+Python 3.7.6 (tags/v3.7.6:43364a7ae0, Dec 19 2019, 00:42:30) [MSC v.1916 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from flaskblog import db
+C:\Users\Dell\Desktop\Projects\corey_projects\code_snippets-master\Python\Flask_Blog\venv\lib\site-packages\flask_sqlalchemy\__init__.py:834: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+>>> db.create_all()
+>>> from flaskblog import User, Post
+>>> user_1 = User(username='Corey', email='C@demo.com', password='password')
+>>> db.session.add(user_1)
+>>> user_2 = User(username='JohnDoe', email='jd@demo.com', password='password')
+>>> db.session.add(user_2)
+>>> db.session.commit()
+>>> User.query.all()
+[User('Corey', 'C@demo.com', 'default.jpg'), User('JohnDoe', 'jd@demo.com', 'default.jpg')]
+>>> User.query.first()
+User('Corey', 'C@demo.com', 'default.jpg')
+>>> User.query.filter_by(username='Corey').all()
+[User('Corey', 'C@demo.com', 'default.jpg')]
+>>> User.query.filter_by(username='Corey').first()
+User('Corey', 'C@demo.com', 'default.jpg')
+>>> user = User.query.filter_by(username='Corey').first()
+>>> user
+User('Corey', 'C@demo.com', 'default.jpg')
+>>> user.id
+1
+>>> user.password
+'password'
+>>> user = user.query.get(1)
+>>> user
+User('Corey', 'C@demo.com', 'default.jpg')
+>>> user.posts
+[]
+>>> user.id
+1
+>>> post_1 = Post(title='Blog 1', content='First Post Content!', user_id=user.id)
+>>> post_2 = Post(title='Blog 2', content='Second Post Content!', user_id=user.id)
+>>> db.session.add(post_1)
+>>> db.session.add(post_2)
+>>> db.session.commit()
+>>> user.posts
+[Post('Blog 1', '2021-03-08 18:14:15.265368'), Post('Blog 2', '2021-03-08 18:14:15.270355')]
+>>> for post in user.posts:
+... print(post.title)
+  File "<stdin>", line 2
+    print(post.title)
+        ^
+IndentationError: expected an indented block
+>>> for post in user.posts:
+...   print(post.title)
+...
+Blog 1
+Blog 2
+>>> post = Post.query.first()
+>>>
+>>> post
+Post('Blog 1', '2021-03-08 18:14:15.265368')
+>>> post.user_id
+1
+>>> post.author
+User('Corey', 'C@demo.com', 'default.jpg')
+>>> db.drop_all()
+>>> db.create_all()
+>>> User.query.all()
+[]
+>>> Post.query.all()
+[]
+>>>
+
