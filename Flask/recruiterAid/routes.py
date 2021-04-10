@@ -11,7 +11,7 @@ from recruiterAid.models import User, FileContents, RankingPolicy
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-UPLOAD_FOLDER = 'C:/Users/Dell/Desktop/Projects/FinalYearProject/Flask/recruiterAid/static/ResumeFiles/'
+UPLOAD_FOLDER = 'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/'
 ALLOWED_EXTENSIONS = set(['pdf'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
