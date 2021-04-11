@@ -11,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
-        <title>Flask Blog - {{ title }}</title>
+        <title>recruiterAid - {{ title }}</title>
     {% else %}
-        <title>Flask Blog</title>
+        <title>recruiterAid</title>
     {% endif %}
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
@@ -36,6 +36,7 @@
               {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('ranking') }}">Set Ranking Policy</a>
+                <a class="nav-item nav-link" href="{{ url_for('result') }}">Results</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated: %}
+        <div class="content-section">
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Results</legend>
+                    <p>The Resumes are sorted according to the ranking policy set by you:</p>
+
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Rank</th>
+                          <th scope="col">Resume Name(Filename)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Jack.pdf</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </fieldset>
+                <center style="color:blue">Thanks for using recruiterAid!</center>
+
+        </div>
+    {% endif %}
+{% endblock content %}

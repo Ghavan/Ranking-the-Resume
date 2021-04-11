@@ -7,9 +7,10 @@ from werkzeug.utils import secure_filename
 from recruiterAid import app, db, bcrypt, mail
 from recruiterAid.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                 RequestResetForm, ResetPasswordForm, UploadResumeForm, SetRankingPolicy)
-from recruiterAid.models import User, FileContents, RankingPolicy
+from recruiterAid.models import User, FileContents, RankingPolicy, Result
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+from pyresparser import ResumeParser
 
 UPLOAD_FOLDER = 'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/'
 ALLOWED_EXTENSIONS = set(['pdf'])
@@ -20,17 +21,27 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+
+
+
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])
 def home():
+    global nres
+    global rfiles
+    rfiles = []
     form = UploadResumeForm()
     if form.validate_on_submit():
         files = request.files.getlist('files[]')
+        nres = 0
         for file in files:
+            nres = nres+1
+            rfiles.append(file.filename)
             newFile = FileContents(user_id=current_user.id, resume_name=file.filename, resume_file=file.read())
             db.session.add(newFile)
             db.session.commit()
             file.seek(0)
+        print(nres)
 
     if request.method == 'POST':
         if 'files[]' not in request.files:
@@ -66,13 +77,41 @@ def ranking():
         skill = listToString(s)
         print(request.form.getlist('skill'))
         user_policy = RankingPolicy(user_id=current_user.id, experience=form.experience.data,
-                                    skill=skill, degree=form.degree.data,
-                                    publication=form.publication.data, patent=form.patent.data)
+                                    skill=skill, degree=form.degree.data)
         print("Patel")
         db.session.add(user_policy)
         db.session.commit()
         flash('Your Resume ranking policy is successfully set.', 'success')
+        return redirect(url_for('result'))
     return render_template('ranking.html', title='Set Ranking Policy', form=form)
+
+
+@app.route("/result")
+def result():
+    # Number of resumes uploaded
+    # print('ghavan',nres)
+    for i in range(nres):
+        data = ResumeParser(
+            'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/'+rfiles[i],
+            skills_file='C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/skills.csv').get_extracted_data()
+
+        s = data['skills']
+        skill = listToString(s)
+
+        r = data['degree']
+        if r is None:
+            degree = 'None'
+        else:
+            degree = listToString(r)
+
+        newFile = Result(user_id=current_user.id, resume_name=rfiles[i], applicant_name=data['name'], email=data['email'],
+                         mobileno=data['mobile_number'], degree=degree, skills=skill,
+                         experience=data['total_experience'])
+
+        db.session.add(newFile)
+        db.session.commit()
+
+    return render_template('result.html', title='result', nres=nres)
 
 
 @app.route("/about")

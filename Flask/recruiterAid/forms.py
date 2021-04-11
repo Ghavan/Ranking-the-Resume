@@ -84,9 +84,5 @@ class SetRankingPolicy(FlaskForm):
     experience = StringField('Experience')
     skill = StringField('Skills')
     degrees = ['Diploma', 'B.Tech / B.E.', 'Masters', 'Any of the above']
-    degree = StringField('Degree')
-    publications = ['0','1', '2', 'More than 2']
-    publication = StringField('Publications')
-    patents = ['0','1', '2', 'More than 2']
-    patent = StringField('Patents')
+    degree = StringField('Qualification')
     submit = SubmitField('Submit')

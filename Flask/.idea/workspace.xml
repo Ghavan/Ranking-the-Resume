@@ -8,12 +8,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1qyjF5KvqtrEaguNAYQ8dry0wNn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../NLP/NLP.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -30,7 +38,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.NLP (2)">
+  <component name="RunManager" selected="Python.run">
     <configuration name="NLP (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Flask" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -117,8 +125,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.NLP (2)" />
         <item itemvalue="Python.run" />
+        <item itemvalue="Python.NLP (2)" />
         <item itemvalue="Python.NLP (1)" />
         <item itemvalue="Python.NLP" />
       </list>
@@ -136,6 +144,9 @@
       <updated>1618058617384</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

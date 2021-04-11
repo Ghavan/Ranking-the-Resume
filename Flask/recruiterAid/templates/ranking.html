@@ -67,24 +67,6 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group">
-                        {{ form.publication.label(class="form-control-label") }}
-                         <select name="publication">
-                            <option value="{{form.publications[0]}}" selected>{{form.publications[0]}}</option>
-                            {% for publication in form.publications[1:] %}
-                                <option value="{{publication}}">{{publication}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        {{ form.patent.label(class="form-control-label") }}
-                         <select name="patent">
-                            <option value="{{form.patents[0]}}" selected>{{form.patents[0]}}</option>
-                            {% for patent in form.patents[1:] %}
-                                <option value="{{patent}}">{{patent}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
 
                 </fieldset>
                 <div class="form-group">

@@ -60,5 +60,18 @@ class RankingPolicy(db.Model):
     experience = db.Column(db.String(100))
     skill = db.Column(db.String(300))
     degree = db.Column(db.String(400))
-    publication = db.Column(db.String(100))
-    patent = db.Column(db.String(100))
+
+
+
+class Result(db.Model):
+    __tablename__ = 'result'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('parent.id'))
+
+    resume_name = db.Column(db.String(300))
+    applicant_name = db.Column(db.String(200))
+    email = db.Column(db.String(200))
+    mobileno = db.Column(db.String(200))
+    degree = db.Column(db.String(200))
+    skills = db.Column(db.String(2000))
+    experience = db.Column(db.String(100))
