@@ -62,7 +62,6 @@ class RankingPolicy(db.Model):
     degree = db.Column(db.String(400))
 
 
-
 class Result(db.Model):
     __tablename__ = 'result'
     id = db.Column(db.Integer, primary_key=True)

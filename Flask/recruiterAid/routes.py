@@ -1,7 +1,10 @@
 import os
+import sqlite3
+from sqlite3 import Error
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
+from sqlalchemy.dialects import sqlite
 from werkzeug.utils import secure_filename
 
 from recruiterAid import app, db, bcrypt, mail
@@ -17,11 +20,9 @@ ALLOWED_EXTENSIONS = set(['pdf'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
 
 
 @app.route("/")
@@ -41,7 +42,7 @@ def home():
             db.session.add(newFile)
             db.session.commit()
             file.seek(0)
-        print(nres)
+        # print(nres)
 
     if request.method == 'POST':
         if 'files[]' not in request.files:
@@ -75,13 +76,11 @@ def ranking():
     if form.validate_on_submit():
         s = request.form.getlist('skill')
         skill = listToString(s)
-        print(request.form.getlist('skill'))
         user_policy = RankingPolicy(user_id=current_user.id, experience=form.experience.data,
                                     skill=skill, degree=form.degree.data)
-        print("Patel")
         db.session.add(user_policy)
         db.session.commit()
-        flash('Your Resume ranking policy is successfully set.', 'success')
+        flash('Resume ranking policy is successfully set.', 'success')
         return redirect(url_for('result'))
     return render_template('ranking.html', title='Set Ranking Policy', form=form)
 
@@ -107,11 +106,17 @@ def result():
         newFile = Result(user_id=current_user.id, resume_name=rfiles[i], applicant_name=data['name'], email=data['email'],
                          mobileno=data['mobile_number'], degree=degree, skills=skill,
                          experience=data['total_experience'])
-
         db.session.add(newFile)
         db.session.commit()
 
-    return render_template('result.html', title='result', nres=nres)
+    result_tb = []
+    user = str(current_user.id)
+    result_table = db.session.execute("select resume_name from result where user_id="+user+ " order by experience DESC ")
+
+    for row in result_table:
+        result_tb.append(' '.join(row))
+
+    return render_template('result.html', title='result', nres=nres, result_tb=result_tb)
 
 
 @app.route("/about")
@@ -232,3 +237,5 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+

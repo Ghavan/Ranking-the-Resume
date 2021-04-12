@@ -7,18 +7,20 @@
                     <p>The Resumes are sorted according to the ranking policy set by you:</p>
 
                     <table class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th scope="col">Rank</th>
-                          <th scope="col">Resume Name(Filename)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Jack.pdf</td>
-                        </tr>
-                      </tbody>
+                          <thead>
+                                <tr>
+                                  <th scope="col">Rank</th>
+                                  <th scope="col">Resume Name(Filename)</th>
+                                </tr>
+                          </thead>
+                          <tbody>
+                              {% for row in result_tb %}
+                                    <tr>
+                                          <th scope="row">{{loop.index}}</th>
+                                          <td>{{row}}</td>
+                                    </tr>
+                              {% endfor %}
+                          </tbody>
                     </table>
                 </fieldset>
                 <center style="color:blue">Thanks for using recruiterAid!</center>
