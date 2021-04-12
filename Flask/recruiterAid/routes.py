@@ -20,7 +20,6 @@ ALLOWED_EXTENSIONS = set(['pdf'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -28,17 +27,33 @@ def allowed_file(filename):
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])
 def home():
-    global nres
     global rfiles
     rfiles = []
+    global row
+    row = None
     form = UploadResumeForm()
     if form.validate_on_submit():
+        global token
+        child_id = db.session.execute("select id from child")
+        for row in child_id:
+            row = row['id']
+        print(row)
+
+        if row is None:
+            token = 1
+        else:
+            token_no = db.session.execute("select token_id from child where id= " + str(row))
+            for token in token_no:
+                token = token['token_id']
+            token = token + 1
+
         files = request.files.getlist('files[]')
+        global nres
         nres = 0
         for file in files:
-            nres = nres+1
+            nres = nres + 1
             rfiles.append(file.filename)
-            newFile = FileContents(user_id=current_user.id, resume_name=file.filename, resume_file=file.read())
+            newFile = FileContents(user_id=current_user.id, token_id=token, resume_name=file.filename, resume_file=file.read())
             db.session.add(newFile)
             db.session.commit()
             file.seek(0)
@@ -66,7 +81,7 @@ def listToString(s):
     str1 = ""
 
     for ele in s:
-        str1 += ele+', '
+        str1 += ele + ', '
     return str1
 
 
@@ -87,11 +102,9 @@ def ranking():
 
 @app.route("/result")
 def result():
-    # Number of resumes uploaded
-    # print('ghavan',nres)
     for i in range(nres):
         data = ResumeParser(
-            'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/'+rfiles[i],
+            'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/' + rfiles[i],
             skills_file='C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/skills.csv').get_extracted_data()
 
         s = data['skills']
@@ -103,15 +116,17 @@ def result():
         else:
             degree = listToString(r)
 
-        newFile = Result(user_id=current_user.id, resume_name=rfiles[i], applicant_name=data['name'], email=data['email'],
+        newFile = Result(user_id=current_user.id, token_id=token, resume_name=rfiles[i], applicant_name=data['name'],
+                         email=data['email'],
                          mobileno=data['mobile_number'], degree=degree, skills=skill,
                          experience=data['total_experience'])
         db.session.add(newFile)
         db.session.commit()
 
+    crnt_user_id = str(current_user.id)
     result_tb = []
-    user = str(current_user.id)
-    result_table = db.session.execute("select resume_name from result where user_id="+user+ " order by experience DESC ")
+    result_table = db.session.execute(
+        "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC ")
 
     for row in result_table:
         result_tb.append(' '.join(row))
@@ -237,5 +252,3 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
-
-

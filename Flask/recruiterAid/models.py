@@ -40,23 +40,16 @@ class User(db.Model, UserMixin):
 class FileContents(db.Model):
     __tablename__ = 'child'
     id = db.Column(db.Integer, primary_key=True)
+    token_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, ForeignKey('parent.id'))
     resume_name = db.Column(db.String(500))
     resume_file = db.Column(db.LargeBinary)
-
-
-# class RankingPolicy(db.Model):
-#     __tablename__ = 'policy'
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, ForeignKey('parent.id'))
-#     rank_policy = db.Column(db.String(500))
 
 
 class RankingPolicy(db.Model):
     __tablename__ = 'policy'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('parent.id'))
-    # rank_policy = db.Column(db.String(500))
     experience = db.Column(db.String(100))
     skill = db.Column(db.String(300))
     degree = db.Column(db.String(400))
@@ -66,7 +59,7 @@ class Result(db.Model):
     __tablename__ = 'result'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('parent.id'))
-
+    token_id = db.Column(db.Integer, ForeignKey('child.token_id'))
     resume_name = db.Column(db.String(300))
     applicant_name = db.Column(db.String(200))
     email = db.Column(db.String(200))
