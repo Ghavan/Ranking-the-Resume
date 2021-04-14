@@ -74,7 +74,7 @@ def home():
 
         flash('File(s) successfully uploaded and now select one of the policy to rank the resumes.', 'success')
         return redirect(url_for('ranking'))
-    return render_template('home.html', form=form)
+    return render_template('home.html', form=form, title='Home')
 
 
 def listToString(s):
@@ -95,7 +95,7 @@ def ranking():
                                     skill=skill, degree=form.degree.data)
         db.session.add(user_policy)
         db.session.commit()
-        flash('Resume ranking policy is successfully set.', 'success')
+        flash('Resume ranking policy is successfully set and basis on that Rank is allocated.', 'success')
         return redirect(url_for('result'))
     return render_template('ranking.html', title='Set Ranking Policy', form=form)
 
@@ -125,13 +125,16 @@ def result():
 
     crnt_user_id = str(current_user.id)
     result_tb = []
+    # result_table = db.session.execute(
+    #     "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC")
+
     result_table = db.session.execute(
-        "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC ")
+        "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC")
 
     for row in result_table:
         result_tb.append(' '.join(row))
 
-    return render_template('result.html', title='result', nres=nres, result_tb=result_tb)
+    return render_template('result.html', title='Results', nres=nres, result_tb=result_tb)
 
 
 @app.route("/about")
