@@ -12,6 +12,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -38,7 +39,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.NLP (3)">
+  <component name="RunManager" selected="Python.run">
     <configuration name="NLP (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Flask" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,7 +103,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="NLP" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="demo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Flask" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -110,11 +111,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../NLP" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/recruiterAid" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../NLP/NLP.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/recruiterAid/demo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -146,11 +147,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.NLP (3)" />
         <item itemvalue="Python.run" />
+        <item itemvalue="Python.demo" />
+        <item itemvalue="Python.NLP (3)" />
         <item itemvalue="Python.NLP (2)" />
         <item itemvalue="Python.NLP (1)" />
-        <item itemvalue="Python.NLP" />
       </list>
     </recent_temporary>
   </component>

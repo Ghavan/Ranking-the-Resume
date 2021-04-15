@@ -70,4 +70,5 @@ class Result(db.Model):
     mobileno = db.Column(db.String(200))
     degree = db.Column(db.String(200))
     skills = db.Column(db.String(2000))
+    count_skills = db.Column(db.Integer)
     experience = db.Column(db.String(100))

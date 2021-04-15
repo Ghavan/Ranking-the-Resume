@@ -1,10 +1,8 @@
 import os
-import sqlite3
-from sqlite3 import Error
 import secrets
+import re
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
-from sqlalchemy.dialects import sqlite
 from werkzeug.utils import secure_filename
 
 from recruiterAid import app, db, bcrypt, mail
@@ -37,7 +35,6 @@ def home():
         child_id = db.session.execute("select id from child")
         for row in child_id:
             row = row['id']
-        print(row)
 
         if row is None:
             token = 1
@@ -87,12 +84,14 @@ def listToString(s):
 
 @app.route("/ranking", methods=['GET', 'POST'])
 def ranking():
+    global skill_form_string
+    global skill_form_list
     form = SetRankingPolicy()
     if form.validate_on_submit():
-        s = request.form.getlist('skill')
-        skill = listToString(s)
+        skill_form_list = request.form.getlist('skill')
+        skill_form_string = listToString(skill_form_list)
         user_policy = RankingPolicy(user_id=current_user.id, experience=form.experience.data,
-                                    skill=skill, degree=form.degree.data)
+                                    skill=skill_form_string, degree=form.degree.data)
         db.session.add(user_policy)
         db.session.commit()
         flash('Resume ranking policy is successfully set and basis on that Rank is allocated.', 'success')
@@ -102,37 +101,69 @@ def ranking():
 
 @app.route("/result")
 def result():
+    # extract data from pdf file and then storing it into result table
     for i in range(nres):
         data = ResumeParser(
             'C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/ResumeFiles/' + rfiles[i],
             skills_file='C:/Users/Dell/Desktop/Projects/FinalYearProject/Git/Flask/recruiterAid/static/skills.csv').get_extracted_data()
 
+        # match the skills of candidate with the skills of the ranking policy
+        count = 0
+        for p in data['skills']:
+            for q in skill_form_list:
+                if p == q:
+                    count += 1
+
+        # extract skills from pdf file
         s = data['skills']
         skill = listToString(s)
 
+        # to convert list type to string of degree
         r = data['degree']
         if r is None:
             degree = 'None'
         else:
             degree = listToString(r)
 
+        # separate B.E. from B.E. in Computer Engineering
+        match_degree = re.split(r'\s', degree)
+
+        # store data in result table
         newFile = Result(user_id=current_user.id, token_id=token, resume_name=rfiles[i], applicant_name=data['name'],
-                         email=data['email'],
-                         mobileno=data['mobile_number'], degree=degree, skills=skill,
-                         experience=data['total_experience'])
+                         email=data['email'], mobileno=data['mobile_number'], degree=match_degree[0], skills=skill,
+                         count_skills=count, experience=data['total_experience'])
         db.session.add(newFile)
         db.session.commit()
 
+    # extract latest entry of degree from the policy table
+    policyDegree = db.session.execute("SELECT degree FROM policy WHERE id = (SELECT MAX(id) from policy)")
+    for deg in policyDegree:
+        deg = deg['degree']
+    db.session.commit()
+
+    # separate B.E. from B.Tech
+    split_deg = re.split(r'\s', deg)
+
+
     crnt_user_id = str(current_user.id)
+    # extracting experience from policy table
+    experience = db.session.execute("SELECT experience FROM policy WHERE id = (SELECT MAX(id) from policy)")
+    for exp in experience:
+        exp = exp['experience']
+    db.session.commit()
+
+    # display the final rank in result tab
     result_tb = []
-    # result_table = db.session.execute(
-    #     "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC")
-
     result_table = db.session.execute(
-        "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) + " order by experience DESC")
+        "select resume_name from result where user_id=" + crnt_user_id + " and token_id=" + str(token) +
+        " and experience>=" + str(exp) + " and (degree='" + str(split_deg[0]) + "' or degree='"
+        + str(split_deg[2]) + "') order by experience DESC, count_skills DESC")
 
+    # send list of resume files by removing comma
     for row in result_table:
         result_tb.append(' '.join(row))
+
+    db.session.commit()
 
     return render_template('result.html', title='Results', nres=nres, result_tb=result_tb)
 

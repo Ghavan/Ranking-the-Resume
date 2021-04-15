@@ -80,9 +80,9 @@ class UploadResumeForm(FlaskForm):
 
 
 class SetRankingPolicy(FlaskForm):
-    experiences = ['0 Year (Freshers)','1 Year','2 Years','More than 2 Years']
+    experiences = ['0 Year (Freshers)', '1 Year', '2 Years', 'More than 2 Years']
     experience = StringField('Experience')
     skill = StringField('Skills')
-    degrees = ['Diploma', 'B.Tech / B.E.', 'Masters', 'Any of the above']
+    degrees = ['Diploma', 'B.Tech / B.E.', 'M.Tech / M.E.']
     degree = StringField('Qualification')
     submit = SubmitField('Submit')
