@@ -7,8 +7,8 @@ here we introduce “Ranking-the-Resume”.
 upload the bulk of resumes and system will scrutinize each resume one by one and rank them as per company’s resume ranking policy. A more detailed description of workflow 
 is given below.
 
-Initially, using front-end technology like HTML5, CSS3 and Bootstrap we will build a web application, wherein company, as a user, will create their account to access 
-this facility. Python based web application will be build using Flask framework and SQLite database. User can upload any number of resumes, which will be garner by the 
+Initially, using front-end technology like HTML5, CSS3 and Bootstrap we built a web application, wherein company, as a user, will create their account to access 
+this facility. Python based web application built using Flask framework and SQLite database. User can upload any number of resumes, which will be garner by the 
 system for the further process. After this, system will start scanning the main keywords and their corresponding value. NLP is use for this purpose. Those values are then 
 stored in the database with specified keyword. Similar process will take place for each resume. After each resume is stored in the database, they are rank as per company’s 
 resume ranking policy. Here each company may have their own ranking policy. Moreover, system is compatible with it. Finally, system will give resumes in ranked/shorted manner.
